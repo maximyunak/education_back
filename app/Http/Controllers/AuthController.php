@@ -6,7 +6,6 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Services\Auth\AuthService;
 use Illuminate\Http\JsonResponse;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
@@ -29,13 +28,14 @@ class AuthController extends Controller
 
         $data = $this->authService->login($dto);
 
-        return response()->json($data, 200)->withCookies($data['cookies']);
+        return response()->json($data, 200)
+            ->withCookie(cookie('access_token', $data['access_token'], 60))
+            ->withCookie(cookie('refresh_token', $data['refresh_token'], 43200));
     }
 
     public function user()
     {
         $user = $this->authService->getUser();
-        // $user = JWTAuth::parseToken()->authenticate();
 
         return response()->json([
             'user' => $user,
