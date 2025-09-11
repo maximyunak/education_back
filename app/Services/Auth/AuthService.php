@@ -14,9 +14,8 @@ class AuthService
 {
     public function __construct() {}
 
-    public function register(RegisterDTO $registerDTO)
+    public function register(RegisterDTO $registerDTO): User
     {
-        // $user = User::query()->where("email", $registerDTO->email)->first();
 
         return User::create([
             'first_name' => $registerDTO->first_name,
@@ -26,46 +25,43 @@ class AuthService
             'phone' => $registerDTO->phone,
             'password' => Hash::make($registerDTO->password),
         ]);
-
     }
 
     public function login(LoginDTO $loginDTO): array
     {
-        if (! $accessToken = JWTAuth::attempt(['email' => $loginDTO->email, 'password' => $loginDTO->password])) {
+        if (! $access_token = JWTAuth::attempt(['email' => $loginDTO->email, 'password' => $loginDTO->password])) {
             throw new UnauthorizedException('Неверные данные');
         }
 
         $user = auth()->user();
 
-        $refreshToken = hash('sha256', Str::random(60));
+        $refresh_token = hash('sha256', Str::random(60));
         $user->update([
-            'refresh_token' => $refreshToken,
+            'refresh_token' => $refresh_token,
             'refresh_token_expires_at' => now()->addDays(7),
         ]);
 
         return [
-            'access_token' => $accessToken,
-            'refresh_token' => $refreshToken,
+            'access_token' => $access_token,
+            'refresh_token' => $refresh_token,
             'user' => $user,
         ];
     }
 
-    public function getUser()
+    public function refresh($refresh_token): array
     {
-        $user = JWTAuth::parseToken()->authenticate();
+        $user = User::where('refresh_token', $refresh_token)
+            ->where('refresh_token_expires_at', '>', now())
+            ->first();
 
-        return $user;
-    }
+        if (! $user) {
+            throw new UnauthorizedException('Refresh токен не действителен');
+        }
 
-    public function refresh()
-    {
-        $refresh_token = JWTAuth::parseToken()->refresh();
-
-        $user = JWTAuth::setToken($refresh_token)->toUser();
+        $access_token = JWTAuth::fromUser($user);
 
         return [
-            'token' => $refresh_token,
-            'user' => $user,
+            'access_token' => $access_token,
         ];
     }
 }
