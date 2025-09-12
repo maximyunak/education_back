@@ -25,6 +25,7 @@ class User extends Authenticatable implements JWTSubject
         'email',
         'phone',
         'password',
+        'role_id',
 
         'refresh_token',
         'refresh_token_expires_at',
@@ -63,5 +64,10 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims(): array
     {
         return [];
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
     }
 }

@@ -7,7 +7,6 @@ use App\Http\Requests\Auth\RegisterRequest;
 use App\Services\Auth\AuthService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AuthController extends Controller
 {
@@ -35,15 +34,6 @@ class AuthController extends Controller
             ->withCookie(cookie('refresh_token', $data['refresh_token'], 43200));
     }
 
-    public function user(): JsonResponse
-    {
-        $user = JWTAuth::user();
-
-        return response()->json([
-            'user' => $user,
-        ], 200);
-    }
-
     public function refresh(Request $request): JsonResponse
     {
         $refresh_token = $request->cookie('refresh_token');
@@ -52,6 +42,16 @@ class AuthController extends Controller
 
         return response()->json([
             $access_token,
+        ], 200)
+            ->withCookie(cookie('access_token', $access_token['access_token'], 60));
+    }
+
+    public function user(): JsonResponse
+    {
+        $user = auth()->user();
+
+        return response()->json([
+            'user' => $user,
         ], 200);
     }
 }

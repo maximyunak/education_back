@@ -11,7 +11,7 @@ class UnauthorizedException extends Exception
     {
         return response()->json([
             'message' => 'Unauthorized',
-            'type' => 'unauthorized',
+            'type' => 'Unauthorized',
         ], 401);
     }
 }
