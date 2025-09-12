@@ -17,10 +17,7 @@ class AuthController extends Controller
         $dto = $request->toDTO();
         $data = $this->authService->register($dto);
 
-        return response()->json([
-            'message' => 'Success',
-            'user' => $data['user'],
-        ], 201)
+        return response()->json('', 201)
             ->withCookie(cookie('access_token', $data['access_token']))
             ->withCookie(cookie('refresh_token', $data['refresh_token']));
     }
@@ -31,7 +28,7 @@ class AuthController extends Controller
 
         $data = $this->authService->login($dto);
 
-        return response()->json($data, 200)
+        return response()->json('', 200)
             ->withCookie(cookie('access_token', $data['access_token'], 60))
             ->withCookie(cookie('refresh_token', $data['refresh_token'], 43200));
     }
@@ -46,14 +43,5 @@ class AuthController extends Controller
             $access_token,
         ], 200)
             ->withCookie(cookie('access_token', $access_token['access_token'], 60));
-    }
-
-    public function user(): JsonResponse
-    {
-        $user = auth()->user();
-
-        return response()->json([
-            'user' => $user,
-        ], 200);
     }
 }

@@ -33,7 +33,6 @@ class AuthService
         ]);
 
         return [
-            'user' => $user,
             'access_token' => $access_token,
             'refresh_token' => $refresh_token,
         ];
@@ -56,7 +55,6 @@ class AuthService
         return [
             'access_token' => $access_token,
             'refresh_token' => $refresh_token,
-            'user' => $user,
         ];
     }
 
