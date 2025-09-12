@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('refresh_token')->nullable();
             $table->timestamp('refresh_token_expires_at')->nullable();
 
-            $table->foreignId('role_id')->constrained('roles');
+            $table->foreignId('role_id')->default(2)->constrained('roles');
 
             $table->timestamps();
         });

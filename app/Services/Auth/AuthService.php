@@ -14,10 +14,9 @@ class AuthService
 {
     public function __construct() {}
 
-    public function register(RegisterDTO $registerDTO): User
+    public function register(RegisterDTO $registerDTO): array
     {
-
-        return User::create([
+        $user = User::create([
             'first_name' => $registerDTO->first_name,
             'last_name' => $registerDTO->last_name,
             'middle_name' => $registerDTO->middle_name,
@@ -25,6 +24,19 @@ class AuthService
             'phone' => $registerDTO->phone,
             'password' => Hash::make($registerDTO->password),
         ]);
+        $access_token = JWTAuth::attempt(['email' => $user->email, 'password' => $user->password]);
+
+        $refresh_token = hash('sha256', Str::random(60));
+        $user->update([
+            'refresh_token' => $refresh_token,
+            'refresh_token_expires_at' => now()->addDays(7),
+        ]);
+
+        return [
+            'user' => $user,
+            'access_token' => $access_token,
+            'refresh_token' => $refresh_token,
+        ];
     }
 
     public function login(LoginDTO $loginDTO): array

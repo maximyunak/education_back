@@ -15,12 +15,14 @@ class AuthController extends Controller
     public function register(RegisterRequest $request): JsonResponse
     {
         $dto = $request->toDTO();
-        $user = $this->authService->register($dto);
+        $data = $this->authService->register($dto);
 
         return response()->json([
             'message' => 'Success',
-            'user' => $user,
-        ], 201);
+            'user' => $data['user'],
+        ], 201)
+            ->withCookie(cookie('access_token', $data['access_token']))
+            ->withCookie(cookie('refresh_token', $data['refresh_token']));
     }
 
     public function login(LoginRequest $request): JsonResponse
