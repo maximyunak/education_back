@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Auth;
+namespace App\Http\Requests\Theme;
 
-use App\DTOs\Auth\LoginDTO;
+use App\DTOs\Theme\ThemeDTO;
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoginRequest extends FormRequest
+class CreateThemeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,15 +23,15 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|string|max:255',
-            'password' => 'required|string|between:3,255',
+            'name' => 'required|string|max:255',
+            'description' => 'string|max:255',
         ];
     }
 
-    public function toDTO(): LoginDTO
+    public function toDTO(): ThemeDTO
     {
         $data = $this->validated();
 
-        return LoginDTO::fromRequest($data);
+        return ThemeDTO::fromRequest($data);
     }
 }
