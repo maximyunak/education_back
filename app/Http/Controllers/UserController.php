@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Services\User\UserService;
 use Illuminate\Http\JsonResponse;
 
@@ -15,4 +16,11 @@ class UserController extends Controller
 
         return response()->json($user, 200);
     }
+
+    public function users()
+    {
+        return User::all();
+    }
+
+    public function changeRole(int $id) {}
 }

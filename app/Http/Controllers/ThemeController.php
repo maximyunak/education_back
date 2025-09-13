@@ -35,16 +35,16 @@ class ThemeController extends Controller
         return $theme;
     }
 
-    public function destroy(int $id)
+    public function destroy(Theme $theme)
     {
-        return Theme::destroy($id);
+        return $theme->delete();
     }
 
-    public function update(int $id, UpdateThemeRequest $request)
+    public function update(Theme $theme, UpdateThemeRequest $request)
     {
         $data = $request->validated();
 
-        $theme = $this->themeService->update($id, $data);
+        $theme->update($data);
 
         return $theme;
     }

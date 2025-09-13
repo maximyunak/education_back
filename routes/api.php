@@ -13,13 +13,16 @@ Route::get('/refresh', [AuthController::class, 'refresh']);
 Route::get('/theme/all', [ThemeController::class, 'index']);
 Route::get('/theme/{id}', [ThemeController::class, 'show']);
 
+// ! добавить мидлвар
+Route::get('/users', [UserController::class, 'users']);
+
 Route::middleware([CheckToken::class])->group(function () {
     Route::get('/me', [UserController::class, 'me']);
 
     Route::middleware('role:admin')->group(function () {
         Route::post('/theme', [ThemeController::class, 'store']);
-        Route::delete('/theme/{id}', [ThemeController::class, 'destroy']);
-        Route::patch('/theme/{id}', [ThemeController::class, 'update']);
+        Route::delete('/theme/{theme}', [ThemeController::class, 'destroy']);
+        Route::patch('/theme/{theme}', [ThemeController::class, 'update']);
 
     });
 

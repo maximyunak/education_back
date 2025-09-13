@@ -19,12 +19,4 @@ class ThemeService
             ]
         );
     }
-
-    public function update(int $id, $data)
-    {
-        $theme = Theme::find($id);
-        $theme->update($data);
-
-        return $theme;
-    }
 }
