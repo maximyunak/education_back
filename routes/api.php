@@ -6,12 +6,16 @@ use App\Http\Controllers\UserController;
 use App\Http\Middleware\CheckToken;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
-Route::get('/refresh', [AuthController::class, 'refresh']);
+Route::group(['prefix' => 'auth', 'controller' => AuthController::class], function () {
+    Route::post('/register', 'register');
+    Route::post('/login', 'login');
+    Route::get('/refresh', 'refresh');
+});
 
-Route::get('/theme/all', [ThemeController::class, 'index']);
-Route::get('/theme/{id}', [ThemeController::class, 'show']);
+Route::group(['prefix' => 'theme', 'controller' => ThemeController::class], function () {
+    Route::get('/', 'index');
+    Route::get('/{id}', 'show');
+});
 
 // ! добавить мидлвар
 Route::get('/users', [UserController::class, 'users']);
@@ -20,11 +24,15 @@ Route::middleware([CheckToken::class])->group(function () {
     Route::get('/me', [UserController::class, 'me']);
 
     Route::middleware('role:admin')->group(function () {
-        Route::post('/theme', [ThemeController::class, 'store']);
-        Route::delete('/theme/{theme}', [ThemeController::class, 'destroy']);
-        Route::patch('/theme/{theme}', [ThemeController::class, 'update']);
 
-        Route::patch('/user/{user}', [UserController::class, 'changeRole']);
+        Route::group(['prefix' => 'theme'], function () {
+            Route::post('/', [ThemeController::class, 'store']);
+            Route::delete('/{theme}', [ThemeController::class, 'destroy']);
+            Route::patch('/{theme}', [ThemeController::class, 'update']);
+        });
+
+        Route::group(['prefix' => 'user'], function () {
+            Route::patch('/user/{user}', [UserController::class, 'changeRole']);
+        });
     });
-
 });
