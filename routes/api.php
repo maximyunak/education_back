@@ -24,6 +24,7 @@ Route::middleware([CheckToken::class])->group(function () {
         Route::delete('/theme/{theme}', [ThemeController::class, 'destroy']);
         Route::patch('/theme/{theme}', [ThemeController::class, 'update']);
 
+        Route::patch('/user/{user}', [UserController::class, 'changeRole']);
     });
 
 });

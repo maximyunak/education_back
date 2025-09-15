@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\User\ChangeRoleRequest;
 use App\Models\User;
 use App\Services\User\UserService;
 use Illuminate\Http\JsonResponse;
@@ -22,5 +23,12 @@ class UserController extends Controller
         return User::all();
     }
 
-    public function changeRole(int $id) {}
+    public function changeRole(User $user, ChangeRoleRequest $request)
+    {
+        $role_id = $request->validated('role_id');
+
+        $user = $this->userService->changeRole($user, $role_id);
+
+        return $user;
+    }
 }
