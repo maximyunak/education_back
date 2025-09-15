@@ -29,8 +29,9 @@ class AuthController extends Controller
         $data = $this->authService->login($dto);
 
         return response()->json('', 200)
-            ->withCookie(cookie('access_token', $data['access_token'], 60))
-            ->withCookie(cookie('refresh_token', $data['refresh_token'], 43200));
+            ->withCookie(cookie('access_token', $data['access_token'], 60, '/'))
+            ->withCookie(cookie('refresh_token', $data['refresh_token'], 43200, '/'));
+
     }
 
     public function refresh(Request $request): JsonResponse

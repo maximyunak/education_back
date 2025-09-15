@@ -1,5 +1,6 @@
 <?php
 
+use App\Exceptions\Auth\UnauthorizedException;
 use App\Http\Middleware\CheckRole;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -19,5 +20,10 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        $exceptions->render(function (UnauthorizedException $e, $request) {
+            return response()->json([
+                'error' => $e->getMessage() ?: 'Unauthorized',
+                'type' => 'Unauthorized',
+            ], 401);
+        });
     })->create();

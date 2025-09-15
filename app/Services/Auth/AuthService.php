@@ -41,7 +41,7 @@ class AuthService
     public function login(LoginDTO $loginDTO): array
     {
         if (! $access_token = JWTAuth::attempt(['email' => $loginDTO->email, 'password' => $loginDTO->password])) {
-            throw new UnauthorizedException('Неверные данные');
+            throw new \App\Exceptions\Auth\UnauthorizedException('Неверные данные');
         }
 
         $user = auth()->user();

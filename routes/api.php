@@ -20,6 +20,7 @@ Route::group(['prefix' => 'theme', 'controller' => ThemeController::class], func
 // ! добавить мидлвар
 Route::get('/users', [UserController::class, 'users']);
 
+// только авторизованным
 Route::middleware([CheckToken::class])->group(function () {
     Route::get('/me', [UserController::class, 'me']);
 
@@ -29,10 +30,11 @@ Route::middleware([CheckToken::class])->group(function () {
             Route::post('/', [ThemeController::class, 'store']);
             Route::delete('/{theme}', [ThemeController::class, 'destroy']);
             Route::patch('/{theme}', [ThemeController::class, 'update']);
+
+            Route::group(['prefix' => 'user'], function () {
+                Route::patch('/user/{user}', [UserController::class, 'changeRole']);
+            });
         });
 
-        Route::group(['prefix' => 'user'], function () {
-            Route::patch('/user/{user}', [UserController::class, 'changeRole']);
-        });
     });
 });
