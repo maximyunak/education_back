@@ -18,8 +18,8 @@ class Test extends Model
         'theme_id',
     ];
 
-    protected function questions()
+    public function questions()
     {
-        return $this->hasMany(Questions::class);
+        return $this->hasMany(Question::class);
     }
 }

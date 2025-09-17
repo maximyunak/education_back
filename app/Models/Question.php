@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Questions extends Model
+class Question extends Model
 {
     protected $fillable = [
         'test_id',
@@ -13,8 +13,8 @@ class Questions extends Model
         'points',
     ];
 
-    protected function answers()
+    public function answers()
     {
-        return $this->hasMany(Answers::class);
+        return $this->hasMany(Answer::class);
     }
 }

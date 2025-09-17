@@ -14,6 +14,8 @@ class TestController extends Controller
     {
         $dto = TestDTO::fromRequest($request->validated(), auth()->id());
 
-        return ['dto' => $dto];
+        $test = $this->testService->store($dto);
+
+        return $test;
     }
 }
