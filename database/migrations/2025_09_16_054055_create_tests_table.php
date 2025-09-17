@@ -18,9 +18,9 @@ return new class extends Migration
             $table->integer('max_attempts');
             $table->integer('passing_score');
             $table->integer('duration');
-            $table->integer('popularity_count');
+            $table->integer('popularity_count')->default(0);
 
-            $table->enum('status', ['DRAFT', 'PUBLISHED', 'ARCHIVED']);
+            $table->enum('status', ['DRAFT', 'PUBLISHED', 'ARCHIVED'])->default('PUBLISHED');
             $table->foreignId('author_id')->constrained('users')->cascadeOnDelete();
             $table->foreignId('theme_id')->constrained('themes')->cascadeOnDelete();
             $table->timestamps();

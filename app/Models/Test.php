@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Test extends Model
 {
     protected $fillable = [
-        'id',
         'title',
         'description',
         'max_attempts',
@@ -18,4 +17,9 @@ class Test extends Model
         'author_id',
         'theme_id',
     ];
+
+    protected function questions()
+    {
+        return $this->hasMany(Questions::class);
+    }
 }

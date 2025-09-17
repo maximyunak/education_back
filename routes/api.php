@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TestController;
 use App\Http\Controllers\ThemeController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\CheckToken;
@@ -23,6 +24,10 @@ Route::get('/users', [UserController::class, 'users']);
 // только авторизованным
 Route::middleware([CheckToken::class])->group(function () {
     Route::get('/me', [UserController::class, 'me']);
+
+    Route::group(['prefix' => 'test'], function () {
+        Route::post('/', [TestController::class, 'store']);
+    });
 
     Route::middleware('role:admin')->group(function () {
 

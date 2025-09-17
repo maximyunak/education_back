@@ -2,9 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\DTOs\Test\TestDTO;
+use App\Http\Requests\Test\CreateTestRequest;
+use App\Services\Test\TestService;
 
 class TestController extends Controller
 {
-    //
+    public function __construct(private readonly TestService $testService) {}
+
+    public function store(CreateTestRequest $request)
+    {
+        $dto = TestDTO::fromRequest($request->validated(), auth()->id());
+
+        return ['dto' => $dto];
+    }
 }
