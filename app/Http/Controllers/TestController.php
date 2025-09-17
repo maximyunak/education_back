@@ -13,7 +13,9 @@ class TestController extends Controller
 
     public function index()
     {
-        return Test::where('status', 'PUBLISHED');
+        // ! вернуть на опубликованные
+        // return Test::where('status', 'PUBLISHED')->paginate(10);
+        return Test::paginate(5);
     }
 
     public function all()
@@ -23,7 +25,7 @@ class TestController extends Controller
 
     public function userTests()
     {
-        return auth()->user()->tests;
+        return auth()->user()->tests->paginate(10);
     }
 
     public function show(Test $test)
