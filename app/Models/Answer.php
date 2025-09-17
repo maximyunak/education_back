@@ -12,4 +12,9 @@ class Answer extends Model
         'text',
         'is_correct',
     ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
 }

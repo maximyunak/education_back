@@ -25,8 +25,14 @@ Route::get('/users', [UserController::class, 'users']);
 Route::middleware([CheckToken::class])->group(function () {
     Route::get('/me', [UserController::class, 'me']);
 
-    Route::group(['prefix' => 'test'], function () {
-        Route::post('/', [TestController::class, 'store']);
+    Route::group(['prefix' => 'test', 'controller' => TestController::class], function () {
+        Route::get('/', 'index');
+        Route::post('/', 'store');
+        Route::get('/all', 'all');
+        Route::get('/mine', 'userTests');
+
+        Route::get('/{test}', 'show');
+
     });
 
     Route::middleware('role:admin')->group(function () {

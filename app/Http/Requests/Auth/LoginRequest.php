@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Auth;
 
+use App\DTOs\Auth\LoginDTO;
 use Illuminate\Foundation\Http\FormRequest;
 
 class LoginRequest extends FormRequest
@@ -25,5 +26,10 @@ class LoginRequest extends FormRequest
             'email' => 'required|string|max:255',
             'password' => 'required|string|between:3,255',
         ];
+    }
+
+    public function toDTO(): LoginDTO
+    {
+        return LoginDTO::fromRequest($this->validated());
     }
 }

@@ -13,6 +13,11 @@ class Question extends Model
         'points',
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+
     public function answers()
     {
         return $this->hasMany(Answer::class);
