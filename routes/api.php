@@ -32,6 +32,7 @@ Route::middleware([CheckToken::class])->group(function () {
         Route::get('/mine', 'userTests');
 
         Route::put('/{test}', 'update');
+        Route::delete('/{test}', 'destroy');
 
         Route::get('/{test}', 'show');
     });

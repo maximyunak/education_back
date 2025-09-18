@@ -49,4 +49,9 @@ class TestController extends Controller
 
         return $test->update($data);
     }
+
+    public function destroy(Test $test)
+    {
+        return $test->delete();
+    }
 }
