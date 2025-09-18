@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\DTOs\Test\TestDTO;
 use App\Http\Requests\Test\CreateTestRequest;
+use App\Http\Requests\Test\UpdateTestRequest;
 use App\Models\Test;
 use App\Services\Test\TestService;
 
@@ -40,5 +41,12 @@ class TestController extends Controller
         $test = $this->testService->store($dto);
 
         return $test;
+    }
+
+    public function update(Test $test, UpdateTestRequest $request)
+    {
+        $data = $request->validated();
+
+        return $test->update($data);
     }
 }
