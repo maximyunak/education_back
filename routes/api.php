@@ -18,9 +18,6 @@ Route::group(['prefix' => 'theme', 'controller' => ThemeController::class], func
     Route::get('/{id}', 'show');
 });
 
-// ! добавить мидлвар
-Route::get('/users', [UserController::class, 'users']);
-
 // только авторизованным
 Route::middleware([CheckToken::class])->group(function () {
     Route::get('/me', [UserController::class, 'me']);
@@ -37,16 +34,20 @@ Route::middleware([CheckToken::class])->group(function () {
         Route::get('/{test}', 'show');
     });
 
+    Route::middleware('role:teacher,admin')->group(function () {
+        Route::get('/users', [UserController::class, 'users']);
+    });
+
     Route::middleware('role:admin')->group(function () {
 
-        Route::group(['prefix' => 'theme'], function () {
-            Route::post('/', [ThemeController::class, 'store']);
-            Route::delete('/{theme}', [ThemeController::class, 'destroy']);
-            Route::patch('/{theme}', [ThemeController::class, 'update']);
+        Route::group(['prefix' => 'theme', 'controller' => ThemeController::class], function () {
+            Route::post('/', 'store');
+            Route::delete('/{theme}', 'destroy');
+            Route::patch('/{theme}', 'update');
 
-            Route::group(['prefix' => 'user'], function () {
-                Route::patch('/user/{user}', [UserController::class, 'changeRole']);
-            });
+        });
+        Route::group(['prefix' => 'user', 'controller' => UserController::class], function () {
+            Route::patch('/{user}', 'changeRole');
         });
 
     });
