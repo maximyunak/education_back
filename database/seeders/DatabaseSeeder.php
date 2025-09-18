@@ -32,10 +32,28 @@ class DatabaseSeeder extends Seeder
         User::create([
             'first_name' => 'max',
             'last_name' => 'max',
-            'phone' => 'phone',
-            'email' => 'test',
-            'password' => '12345',
+            'phone' => 'phone1',
+            'email' => 'admin@gmail.com',
+            'password' => '12345678',
             'role_id' => 1,
+        ]);
+
+        User::create([
+            'first_name' => 'max',
+            'last_name' => 'max',
+            'phone' => 'phone2',
+            'email' => 'user@gmail.com',
+            'password' => '12345678',
+            'role_id' => 2,
+        ]);
+
+        User::create([
+            'first_name' => 'max',
+            'last_name' => 'max',
+            'phone' => 'phone3',
+            'email' => 'teacher@gmail.com',
+            'password' => '12345678',
+            'role_id' => 3,
         ]);
 
         Theme::create([
