@@ -17,7 +17,6 @@ Route::group(['prefix' => 'theme', 'controller' => ThemeController::class], func
     Route::get('/', 'index');
     Route::get('/{id}', 'show');
 });
-
 // только авторизованным
 Route::middleware([CheckToken::class])->group(function () {
     Route::get('/me', [UserController::class, 'me']);

@@ -16,7 +16,7 @@ class TestController extends Controller
     {
         // ! вернуть на опубликованные
         // return Test::where('status', 'PUBLISHED')->paginate(10);
-        return Test::paginate(5);
+        return Test::withCount('questions')->paginate(5);
     }
 
     public function all()
